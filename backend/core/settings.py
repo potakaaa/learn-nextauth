@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from .secrets import DJANGO_SECRET_KEY, JWT_SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,7 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     # local app
-    'auth'
+    'authentication'
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -84,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 from datetime import timedelta
@@ -100,7 +102,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
-AUTH_USER_MODEL = "auth.CustomUser"   # custom user model
+AUTH_USER_MODEL = "authentication.CustomUserModel"   # custom user model
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'auth.serializers.CustomUserSerializer',
@@ -113,7 +115,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'dj_rest_auth.utils.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
