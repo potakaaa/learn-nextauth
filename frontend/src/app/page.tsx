@@ -7,13 +7,13 @@ export default function Home() {
 
   return (
     <>
-      <Button onClick={() => signIn()}>Log In using Google</Button>
+      <Button onClick={() => signIn("google")}>Log In using Google</Button>
       <p className="font-medium text-lg">
         {status !== "authenticated" ? "User not logged in" : ""}
       </p>
       {status === "authenticated" && (
         <div>
-          <Button onClick={() => signOut()}>Log In using Google</Button>
+          <Button onClick={() => signOut()}>Sign Out</Button>
           <p>Signed in</p>
         </div>
       )}
