@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
+import {
+  IconBrandGithub,
+  IconBrandGoogle,
+  IconLogin,
+} from "@tabler/icons-react";
 
 export default function LoginPage() {
   return (
@@ -36,16 +40,18 @@ export default function LoginPage() {
         </Button>
       </form>
       <div className="bg-gradient-to-r from-transparent via-neutral-500 dark:via-neutral-900 to-transparent my-8 h-[1px] w-full" />
-      <div className="flex flex-col w-full">
-        <Button className="w-full relative group/btn py-5 hover:bg-muted hover:text-primary">
+      <div className="flex flex-col w-full space-y-2">
+        <Button className="w-full relative group/btn py-5 hover:bg-muted hover:text-primary self-start justify-start px-5">
           <IconBrandGoogle size={20} />
           <p>Log In with Google</p>
           <BottomGradient />
         </Button>
+        <Button className="w-full relative group/btn py-5 hover:bg-muted hover:text-primary justify-start px-5">
+          <IconLogin size={20} />
+          <p>New User? Sign Up</p>
+          <BottomGradient />
+        </Button>
       </div>
-      <section className="flex flex-col items-center w-full">
-        <h2 className="text-sm">Sign Up here</h2>
-      </section>
     </div>
   );
 }
