@@ -1,12 +1,16 @@
+import { BottomGradient } from "@/components/ui/bottom-gradient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LabelInputContainer } from "@/components/ui/label-input-container";
 import { cn } from "@/lib/utils";
 import {
   IconBrandGithub,
   IconBrandGoogle,
   IconLogin,
 } from "@tabler/icons-react";
+import { signIn } from "next-auth/react";
+import GoogleButton from "./google-button";
 
 export default function LoginPage() {
   return (
@@ -41,11 +45,7 @@ export default function LoginPage() {
       </form>
       <div className="bg-gradient-to-r from-transparent via-neutral-500 dark:via-neutral-900 to-transparent my-8 h-[1px] w-full" />
       <div className="flex flex-col w-full space-y-2">
-        <Button className="w-full relative group/btn py-5 hover:bg-muted hover:text-primary self-start justify-start px-5">
-          <IconBrandGoogle size={20} />
-          <p>Log In with Google</p>
-          <BottomGradient />
-        </Button>
+        <GoogleButton />
         <Button className="w-full relative group/btn py-5 hover:bg-muted hover:text-primary justify-start px-5">
           <IconLogin size={20} />
           <p>New User? Sign Up</p>
@@ -55,26 +55,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-    </>
-  );
-};
-
-const LabelInputContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
-  );
-};
