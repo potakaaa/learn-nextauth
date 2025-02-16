@@ -3,6 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { AuthenticatedUser } from "@/app/lib/auth/types";
 import axios from "axios";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { access } from "fs";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -10,13 +12,52 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID ?? "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
             
-        })
+        }),
+        CredentialsProvider({
+          name: "Credentials",
+          credentials: {
+            username: { label: "Username", type: "text"},
+            password: { label: "Password", type: "password"},
+            email: { label: "Email", type: "email"},
+            
+          },
+          async authorize(credentials, req) {
+            try {
+              const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+                username: credentials?.username,
+                password: credentials?.password,
+                email: credentials?.email,
+              })
+    
+              console.log("Django API Response:", response.data); // Debugging step
+    
+              const user = response.data;
+    
+              if (user && user.access_token) {
+                return {
+                  id: user.id,
+                  name: user.username,
+                  email: user.email,
+                  access: user.access_token,
+                }
+              }
+    
+              throw new Error("Invalid credentials");
+            } catch (error) {
+              console.error("Credentials Authorize Error:", error);
+              return null;
+          }
+        }
+        },
+      
+      )
     ],
     callbacks: {
-        async signIn({ user, account, profile }: { 
+        async signIn({ user, account, profile, credentials }: { 
             user: AuthenticatedUser; 
             account: any; 
-            profile?: any; 
+            profile?: any;
+            credentials?: any; 
           }): Promise<boolean | string> {  
             console.log("Account Object:", account);
             
